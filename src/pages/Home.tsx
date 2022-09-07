@@ -1,18 +1,18 @@
 import { Input } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ListView from "../components/ListView/ListView";
+import IPerson from "../interfaces/IPerson";
+import { getAllPersons } from "../services/PersonsServices";
+import * as Styles from "./Styles";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   const getData = async () => {
-    const URL =
-      "https://rafael.pipedrive.com/v1/persons?api_token=25afa083981b154ef7bf03bba5fa1e1c85425762";
-    const { data } = await axios.get(URL);
-    setData(data?.data);
-    setFilteredData(data?.data);
+    const resp = await getAllPersons();
+    setData(resp?.data);
+    setFilteredData(resp?.data);
   };
 
   useEffect(() => {
@@ -21,22 +21,19 @@ const Home = () => {
 
   const onSearch = (value: string) => {
     let result = [];
-    result = data.filter((item: any) => {
+    result = data.filter((item: IPerson) => {
       return item.name?.search(value) !== -1;
     });
     setFilteredData(result);
   };
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div
-        style={{
-          flexDirection: "row",
-          height: "50px",
-        }}
-      >
-        <h2 style={{ float: "left" }}>People's List</h2>
-        <div style={{ float: "right" }}>
+    <Styles.StructPage>
+      <Styles.Container>
+        <Styles.LeftWrapperElement>
+          <h2>People's List</h2>
+        </Styles.LeftWrapperElement>
+        <Styles.RightWrapperElement>
           <Input.Search
             size="large"
             placeholder="Filter By Name"
@@ -44,11 +41,11 @@ const Home = () => {
             onSearch={onSearch}
             style={{ width: 200, marginTop: 10 }}
           />
-        </div>
-      </div>
+        </Styles.RightWrapperElement>
+      </Styles.Container>
       <hr />
       <ListView items={filteredData} />
-    </div>
+    </Styles.StructPage>
   );
 };
 export default Home;

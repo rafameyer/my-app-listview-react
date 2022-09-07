@@ -1,6 +1,14 @@
 import { Modal as ModalAnt } from "antd";
+import IPerson from "../../interfaces/IPerson";
+import * as Styles from "./Styles";
 
-const Modal = ({ isModalOpen, handleCancel, item }: any) => {
+interface IModalProps {
+  isModalOpen: boolean;
+  handleCancel: () => void;
+  item: IPerson | undefined;
+}
+
+const Modal = ({ isModalOpen, handleCancel, item }: IModalProps) => {
   return (
     <ModalAnt
       title="Personal Information"
@@ -9,12 +17,12 @@ const Modal = ({ isModalOpen, handleCancel, item }: any) => {
       footer={null}
     >
       {item!! && (
-        <div>
-          <div style={{ textAlign: "center" }}>
+        <>
+          <Styles.TextAlignCenter>
             <h3>{item.name}</h3>
-          </div>
+          </Styles.TextAlignCenter>
           <hr />
-          <div style={{ textAlign: "center" }}>
+          <Styles.TextAlignCenter>
             <div>
               <b>Email</b>
               <p>{item.cc_email}</p>
@@ -23,8 +31,8 @@ const Modal = ({ isModalOpen, handleCancel, item }: any) => {
               <b>Organization</b>
               <p>{item.org_name}</p>
             </div>
-          </div>
-        </div>
+          </Styles.TextAlignCenter>
+        </>
       )}
     </ModalAnt>
   );

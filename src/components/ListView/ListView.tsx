@@ -1,9 +1,15 @@
 import { Card } from "antd";
 import { useState } from "react";
+import IPerson from "../../interfaces/IPerson";
 import Modal from "../Modal/Modal";
+import * as Styles from "./Styles";
 
-const ListView = ({ items }: any) => {
-  const [itemSelected, setItemSelected] = useState();
+interface IListViewProps {
+  items: IPerson[];
+}
+
+const ListView = ({ items }: IListViewProps) => {
+  const [itemSelected, setItemSelected] = useState<IPerson | undefined>();
 
   const onClickCard = (item: any) => {
     showModal();
@@ -21,7 +27,7 @@ const ListView = ({ items }: any) => {
   };
 
   return (
-    <div>
+    <Styles.Struct>
       {items?.map((item: any, index: number) => {
         return (
           <Card
@@ -34,21 +40,12 @@ const ListView = ({ items }: any) => {
               marginBottom: "5px",
             }}
           >
-            <div
-              style={{
-                flexDirection: "row",
-                marginLeft: "15px",
-                marginRight: "15px",
-              }}
-            >
-              <div style={{ float: "left" }}>
+            <Styles.CardContent>
+              <Styles.LeftWrapperElement>
                 <p>{item.name}</p>
                 <p>{item.org_name}</p>
-              </div>
-              <div style={{ float: "right" }}>
-                {/* <img src={logo} alt="avatar" style={{}} />; */}
-              </div>
-            </div>
+              </Styles.LeftWrapperElement>
+            </Styles.CardContent>
           </Card>
         );
       })}
@@ -57,7 +54,7 @@ const ListView = ({ items }: any) => {
         handleCancel={handleCancel}
         item={itemSelected}
       />
-    </div>
+    </Styles.Struct>
   );
 };
 export default ListView;
